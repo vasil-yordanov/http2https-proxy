@@ -4,9 +4,9 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -75,7 +75,7 @@ class HttpsTargetProxyHandler implements HttpHandler {
 
             InputStream sourceIs = httpExchange.getRequestBody();
             OutputStream targetOs = con.getOutputStream();
-            ByteOutputStream bos = new ByteOutputStream();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
             int len;
             while ((len = sourceIs.read(buf)) >= 0) {
@@ -100,7 +100,7 @@ class HttpsTargetProxyHandler implements HttpHandler {
             }
             InputStream targetIs = con.getInputStream();
             OutputStream sourceOs = httpExchange.getResponseBody();
-            ByteOutputStream responseBos = new ByteOutputStream();
+            ByteArrayOutputStream responseBos = new ByteArrayOutputStream();
 
             while ((len = targetIs.read(buf)) >= 0) {
                 sourceOs.write(buf, 0, len);
